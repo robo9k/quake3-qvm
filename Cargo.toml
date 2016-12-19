@@ -1,0 +1,6 @@
+[package]
+name = "q3vm"
+version = "0.1.0"
+authors = ["robo9k <robo@9k.lv>"]
+
+[dependencies]
