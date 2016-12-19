@@ -12,6 +12,8 @@ pub type Address = u32;
 /// Literal value
 pub type Literal = u32;
 
+// These should match their opcodes
+#[allow(non_camel_case_types)]
 /// A QVM instruction
 pub enum Instruction {
     UNDEF,

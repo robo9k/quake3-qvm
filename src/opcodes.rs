@@ -1,3 +1,5 @@
+// These should match the names in ioquake3
+#[allow(non_camel_case_types)]
 /// Operation code for a QVM instruction.
 ///
 /// See ioquake3's `opcode_t` in `qcommon/vm_local.h`
