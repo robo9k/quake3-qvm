@@ -4,3 +4,4 @@ version = "0.1.0"
 authors = ["robo9k <robo@9k.lv>"]
 
 [dependencies]
+nom = "^2.0"
