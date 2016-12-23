@@ -1,4 +1,4 @@
-use super::{opcodes, bytecode};
+use super::{Opcode, Instruction};
 use nom::*;
 
 type Input = u8;
@@ -6,7 +6,7 @@ type InputSlice<'a> = &'a [Input];
 
 macro_rules! op {
     ($name:ident, $op:path, $ins:path) => {
-        named!($name<InputSlice,bytecode::Instruction>,
+        named!($name<InputSlice,Instruction>,
             value!($ins, tag!([$op as Input])
             )
         );
@@ -15,7 +15,7 @@ macro_rules! op {
 
 macro_rules! op_fn {
     ($name:ident, $op:path, $op_fn:ident, $ins:path) => {
-        named!($name<InputSlice,bytecode::Instruction>,
+        named!($name<InputSlice,Instruction>,
             do_parse!(
                 tag!([$op as Input]) >>
                 operand: $op_fn      >>
@@ -32,8 +32,10 @@ macro_rules! op_u32 {
 }
 
 
-op!(op_break, opcodes::Opcode::BREAK, bytecode::Instruction::BREAK);
-op_u32!(op_enter, opcodes::Opcode::ENTER, bytecode::Instruction::ENTER);
+op!(op_undef, Opcode::UNDEF, Instruction::UNDEF);
+op!(op_ignore, Opcode::IGNORE, Instruction::IGNORE);
+op!(op_break, Opcode::BREAK, Instruction::BREAK);
+op_u32!(op_enter, Opcode::ENTER, Instruction::ENTER);
 
 
 #[cfg(test)]
@@ -44,8 +46,7 @@ mod tests {
     fn test_op_break_exact_match() {
         let data = [0x2];
         let result = op_break(&data);
-        assert_eq!(result,
-                   IResult::Done(&b""[..], bytecode::Instruction::BREAK));
+        assert_eq!(result, IResult::Done(&b""[..], Instruction::BREAK));
     }
 
     #[test]
@@ -59,8 +60,7 @@ mod tests {
     fn test_op_enter_exact_match() {
         let data = [0x3, 0x42, 0x0, 0x0, 0x0];
         let result = op_enter(&data);
-        assert_eq!(result,
-                   IResult::Done(&b""[..], bytecode::Instruction::ENTER(0x42)));
+        assert_eq!(result, IResult::Done(&b""[..], Instruction::ENTER(0x42)));
     }
 
 }
