@@ -7,8 +7,7 @@ type InputSlice<'a> = &'a [Input];
 macro_rules! op {
     ($name:ident, $op:path, $ins:path) => {
         named!($name<InputSlice,Instruction>,
-            value!($ins, tag!([$op as Input])
-            )
+            value!($ins, tag!([$op as Input]))
         );
     }
 }
@@ -118,6 +117,30 @@ op!(op_cvif, Opcode::CVIF, Instruction::CVIF);
 op!(op_cvfi, Opcode::CVFI, Instruction::CVFI);
 
 
+named!(ins<InputSlice,Instruction>,
+    alt!(op_undef
+        | op_ignore
+        | op_break
+        | op_enter | op_leave | op_call | op_push | op_pop
+        | op_const | op_local
+        | op_jump
+        | op_eq | op_ne
+        | op_lti | op_lei | op_gti | op_gei
+        | op_ltu | op_leu | op_gtu | op_geu
+        | op_eqf | op_nef
+        | op_ltf | op_lef | op_gtf | op_gef
+        | op_load1 | op_load2 | op_load4 | op_store1 | op_store2 | op_store4 | op_arg
+        | op_block_copy
+        | op_sex8 | op_sex16
+        | op_negi | op_add | op_sub | op_divi | op_divu | op_modi | op_modu | op_muli | op_mulu
+        | op_band | op_bor | op_bxor | op_bcom
+        | op_lsh  | op_rshi | op_rshu
+        | op_negf | op_addf | op_subf | op_divf | op_mulf
+        | op_cvif | op_cvfi
+    )
+);
+
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -149,4 +172,12 @@ mod tests {
         let result = op_arg(&data);
         assert_eq!(result, IResult::Done(&b""[..], Instruction::ARG(0x42)));
     }
+
+    #[test]
+    fn test_ins_enter_exact_match() {
+        let data = [0x3, 0x42, 0x0, 0x0, 0x0];
+        let result = ins(&data);
+        assert_eq!(result, IResult::Done(&b""[..], Instruction::ENTER(0x42)));
+    }
+
 }
