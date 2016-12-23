@@ -33,9 +33,42 @@ macro_rules! op_u32 {
 
 
 op!(op_undef, Opcode::UNDEF, Instruction::UNDEF);
+
 op!(op_ignore, Opcode::IGNORE, Instruction::IGNORE);
+
 op!(op_break, Opcode::BREAK, Instruction::BREAK);
+
 op_u32!(op_enter, Opcode::ENTER, Instruction::ENTER);
+op_u32!(op_leave, Opcode::LEAVE, Instruction::LEAVE);
+op!(op_call, Opcode::CALL, Instruction::CALL);
+op!(op_push, Opcode::PUSH, Instruction::PUSH);
+op!(op_pop, Opcode::POP, Instruction::POP);
+
+op_u32!(op_const, Opcode::CONST, Instruction::CONST);
+op_u32!(op_local, Opcode::LOCAL, Instruction::LOCAL);
+
+op!(op_jump, Opcode::JUMP, Instruction::JUMP);
+
+op_u32!(op_eq, Opcode::EQ, Instruction::EQ);
+op_u32!(op_ne, Opcode::NE, Instruction::NE);
+
+op_u32!(op_lti, Opcode::LTI, Instruction::LTI);
+op_u32!(op_lei, Opcode::LEI, Instruction::LEI);
+op_u32!(op_gti, Opcode::GTI, Instruction::GTI);
+op_u32!(op_gei, Opcode::GEI, Instruction::GEI);
+
+op_u32!(op_ltu, Opcode::LTU, Instruction::LTU);
+op_u32!(op_leu, Opcode::LEU, Instruction::LEU);
+op_u32!(op_gtu, Opcode::GTU, Instruction::GTU);
+op_u32!(op_geu, Opcode::GEU, Instruction::GEU);
+
+op_u32!(op_eqf, Opcode::EQF, Instruction::EQF);
+op_u32!(op_nef, Opcode::NEF, Instruction::NEF);
+
+op_u32!(op_ltf, Opcode::LTF, Instruction::LTF);
+op_u32!(op_lef, Opcode::LEF, Instruction::LEF);
+op_u32!(op_gtf, Opcode::GTF, Instruction::GTF);
+op_u32!(op_gef, Opcode::GEF, Instruction::GEF);
 
 
 #[cfg(test)]
