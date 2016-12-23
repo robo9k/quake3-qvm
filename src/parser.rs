@@ -4,20 +4,31 @@ use nom::*;
 type Input = u8;
 type InputSlice<'a> = &'a [Input];
 
-named!(op_break<InputSlice,bytecode::Instruction>,
-    value!(
-        bytecode::Instruction::BREAK,
-        tag!([opcodes::Opcode::BREAK as Input])
-    )
-);
+macro_rules! op {
+    ($name:ident, $op:path, $ins:path) => {
+        named!($name<InputSlice,bytecode::Instruction>,
+            value!($ins, tag!([$op as Input])
+            )
+        );
+    }
+}
 
-named!(op_enter<InputSlice,bytecode::Instruction>,
-    do_parse!(
-        tag!([opcodes::Opcode::ENTER as Input]) >>
-        frame_size: le_u32             >>
-        (bytecode::Instruction::ENTER(frame_size))
-    )
-);
+op!(op_break, opcodes::Opcode::BREAK, bytecode::Instruction::BREAK);
+
+macro_rules! op_u32 {
+    ($name:ident, $op:path, $ins:path) => {
+        named!($name<InputSlice,bytecode::Instruction>,
+            do_parse!(
+                tag!([$op as Input]) >>
+                operand: le_u32      >>
+                ($ins(operand))
+            )
+        );
+    }
+
+}
+
+op_u32!(op_enter, opcodes::Opcode::ENTER, bytecode::Instruction::ENTER);
 
 #[cfg(test)]
 mod tests {
