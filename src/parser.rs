@@ -151,16 +151,23 @@ struct Header {
     bss_length: i32,
 }
 
+const HEADER_LENGTH_V1: i32 = 32;
+
 named!(header<InputSlice, Header>,
     do_parse!(
-        tag!(VM_MAGIC)            >>
-        instruction_count: le_i32 >>
-        code_offset: le_i32       >>
-        code_length: le_i32       >>
-        data_offset: le_i32       >>
-        data_length: le_i32       >>
-        lit_length: le_i32        >>
-        bss_length: le_i32        >>
+        magic: le_i32                                       >>
+        instruction_count: le_i32                           >>
+        code_offset: le_i32                                 >>
+        code_length: le_i32                                 >>
+        data_offset: le_i32                                 >>
+        data_length: le_i32                                 >>
+        lit_length: le_i32                                  >>
+        bss_length: le_i32                                  >>
+        take!(code_offset - HEADER_LENGTH_V1)               >>
+        code_segment: take!(code_length)                    >>
+        take!(data_offset - HEADER_LENGTH_V1 - code_length) >>
+        data_segment: take!(data_length)                    >>
+        lit_segment: take!(lit_length)                      >>
         (
             Header {
                 instruction_count: instruction_count,
@@ -218,7 +225,7 @@ mod tests {
     #[test]
     fn test_header_file() {
         let data = include_bytes!("../assets/mod.qvm");
-        let result = header(&data[0..32]);
+        let result = header(data);
         let expected = Header {
             instruction_count: 5,
             code_length: 24,
