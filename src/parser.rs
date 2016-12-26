@@ -169,7 +169,8 @@ named!(qvm<InputSlice, QVM>,
         code: count!(ins, instruction_count as usize)       >>
         take!(data_offset - HEADER_LENGTH_V1 - code_length) >>
         data: count!(le_u32, data_length as usize / 4)      >>
-        lit: count!(le_u8, lit_length as usize)          >>
+        lit: count!(le_u8, lit_length as usize)             >>
+        eof!()                                              >>
         (
             QVM {
                 code: code,
