@@ -1,4 +1,4 @@
-use super::{Opcode, Instruction};
+use super::{Opcode, Instruction, QVM, VM_MAGIC};
 use nom::*;
 
 type Input = u8;
@@ -140,6 +140,41 @@ named!(ins<InputSlice,Instruction>,
     )
 );
 
+#[derive(Debug,PartialEq)]
+struct Header {
+    instruction_count: i32,
+    code_length: i32,
+    code_offset: i32,
+    data_length: i32,
+    data_offset: i32,
+    lit_length: i32,
+    bss_length: i32,
+}
+
+named!(header<InputSlice, Header>,
+    do_parse!(
+        tag!(VM_MAGIC)            >>
+        instruction_count: le_i32 >>
+        code_offset: le_i32       >>
+        code_length: le_i32       >>
+        data_offset: le_i32       >>
+        data_length: le_i32       >>
+        lit_length: le_i32        >>
+        bss_length: le_i32        >>
+        (
+            Header {
+                instruction_count: instruction_count,
+                code_length: code_length,
+                code_offset: code_offset,
+                data_length: data_length,
+                data_offset: data_offset,
+                lit_length: lit_length,
+                bss_length: bss_length,
+            }
+        )
+    )
+);
+
 
 #[cfg(test)]
 mod tests {
@@ -178,6 +213,37 @@ mod tests {
         let data = [0x3, 0x42, 0x0, 0x0, 0x0];
         let result = ins(&data);
         assert_eq!(result, IResult::Done(&b""[..], Instruction::ENTER(0x42)));
+    }
+
+    #[test]
+    fn test_header_file() {
+        let data = include_bytes!("../assets/mod.qvm");
+        let result = header(&data[0..32]);
+        let expected = Header {
+            instruction_count: 5,
+            code_length: 24,
+            code_offset: 0x20,
+            data_length: 4,
+            data_offset: 0x38,
+            lit_length: 0,
+            bss_length: 65536,
+        };
+        assert_eq!(result, IResult::Done(&b""[..], expected));
+    }
+
+    #[test]
+    fn test_ins_file() {
+        let data = include_bytes!("../assets/mod.qvm");
+        named!(ins5<InputSlice,Vec<Instruction>>, count!(ins, 5));
+        let result = ins5(&data[32..53]);
+        let expected = vec![
+            Instruction::ENTER(8),
+            Instruction::CONST(4294967295), // TODO: This is actually -1, need to rethink types!
+            Instruction::LEAVE(8),
+            Instruction::PUSH,
+            Instruction::LEAVE(8),
+        ];
+        assert_eq!(result, IResult::Done(&b""[..], expected));
     }
 
 }
