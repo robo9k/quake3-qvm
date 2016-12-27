@@ -140,17 +140,6 @@ named!(ins<InputSlice,Instruction>,
     )
 );
 
-#[derive(Debug,PartialEq)]
-struct Header {
-    instruction_count: i32,
-    code_length: i32,
-    code_offset: i32,
-    data_length: i32,
-    data_offset: i32,
-    lit_length: i32,
-    bss_length: i32,
-}
-
 const HEADER_LENGTH_V1: u32 = 32;
 
 named!(qvm<InputSlice, QVM>,
