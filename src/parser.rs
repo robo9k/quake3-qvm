@@ -151,23 +151,25 @@ struct Header {
     bss_length: i32,
 }
 
-const HEADER_LENGTH_V1: i32 = 32;
+const HEADER_LENGTH_V1: u32 = 32;
 
 named!(qvm<InputSlice, QVM>,
     do_parse!(
-        magic: le_i32                                       >>
-        instruction_count: le_i32                           >>
-        code_offset: le_i32                                 >>
-        code_length: le_i32                                 >>
-        data_offset: le_i32                                 >>
-        data_length: le_i32                                 >>
-        lit_length: le_i32                                  >>
-        bss_length: le_i32                                  >>
+        magic: le_u32                                       >>
+        instruction_count: le_u32                           >>
+        code_offset: le_u32                                 >>
+        code_length: le_u32                                 >>
+        data_offset: le_u32                                 >>
+        data_length: le_u32                                 >>
+        lit_length: le_u32                                  >>
+        bss_length: le_u32                                  >>
+        // Read padding between header and code segment
         take!(code_offset - HEADER_LENGTH_V1)               >>
         // Almost there, but we need to consume all `code` bytes!
         // There might be a few trailing UNDEFs after instruction_count up until code_length
         code: count!(ins, instruction_count as usize)       >>
-        take!(data_offset - HEADER_LENGTH_V1 - code_length) >>
+        // Read padding between code and data segment
+        take!(data_offset - code_offset - code_length)      >>
         data: count!(le_u32, data_length as usize / 4)      >>
         lit: count!(le_u8, lit_length as usize)             >>
         eof!()                                              >>
@@ -176,7 +178,7 @@ named!(qvm<InputSlice, QVM>,
                 code: code,
                 data: data,
                 lit: lit,
-                bss_length: bss_length as u32,
+                bss_length: bss_length,
             }
         )
     )
