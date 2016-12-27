@@ -154,19 +154,22 @@ named!(qvm<InputSlice, QVM>,
         bss_length: le_u32                                  >>
         // Read padding between header and code segment
         take!(code_offset - HEADER_LENGTH_V1)               >>
-        // Almost there, but we need to consume all `code` bytes!
-        // There might be a few trailing UNDEFs after instruction_count up until code_length
-        code: count!(ins, instruction_count as usize)       >>
+        code_segment: take!(code_length)                    >>
+        // Almost there, but we explicitly need to use `code_segment` as input
+//        code: count!(ins, instruction_count as usize)       >>
         // Read padding between code and data segment
         take!(data_offset - code_offset - code_length)      >>
-        data: count!(le_u32, data_length as usize / 4)      >>
-        lit: count!(le_u8, lit_length as usize)             >>
+        data_segment: take!(data_length)                    >>
+//        data: count!(le_u32, data_length as usize / 4)      >>
+        // lit segment is always aligned, no padding here
+        lit_segment: take!(lit_length)                      >>
+//        lit: count!(le_u8, lit_length as usize)             >>
         eof!()                                              >>
         (
             QVM {
-                code: code,
-                data: data,
-                lit: lit,
+                code: vec![],
+                data: vec![],
+                lit: vec![],
                 bss_length: bss_length,
             }
         )
