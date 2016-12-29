@@ -88,7 +88,9 @@ instruction!(instruction_store2, Opcode::STORE2, Instruction::STORE2);
 instruction!(instruction_store4, Opcode::STORE4, Instruction::STORE4);
 instruction_u8!(instruction_arg, Opcode::ARG, Instruction::ARG);
 
-instruction_u32!(instruction_block_copy, Opcode::BLOCK_COPY, Instruction::BLOCK_COPY);
+instruction_u32!(instruction_block_copy,
+                 Opcode::BLOCK_COPY,
+                 Instruction::BLOCK_COPY);
 
 instruction!(instruction_sex8, Opcode::SEX8, Instruction::SEX8);
 instruction!(instruction_sex16, Opcode::SEX16, Instruction::SEX16);
@@ -226,6 +228,9 @@ named!(qvm<InputSlice, QVM>,
 mod tests {
     use super::*;
 
+    /// q3asm reserves the stack in the BSS segment
+    const Q3ASM_STACK_SIZE: usize = 0x10000;
+
     #[test]
     fn test_instruction_break_exact_match() {
         let data = [0x2];
@@ -262,7 +267,7 @@ mod tests {
     }
 
     #[test]
-    fn test_qvm_file() {
+    fn test_qvm_file_minimal() {
         let data = include_bytes!("../assets/mod-minimal.qvm");
         let result = qvm(data);
         let expected = QVM {
@@ -277,10 +282,32 @@ mod tests {
                 0
             ],
             lit: vec![],
-            bss_length: 65536,
+            bss_length: Q3ASM_STACK_SIZE as u32,
         };
         assert_eq!(result, IResult::Done(&b""[..], expected));
     }
+
+    #[test]
+    fn test_qvm_file_bss() {
+        let data = include_bytes!("../assets/mod-bss.qvm");
+        let result = qvm(data);
+        let expected = QVM {
+            code: vec![
+                Instruction::ENTER(8),
+                Instruction::CONST(4294967295), // TODO: This is actually -1, need to rethink types!
+                Instruction::LEAVE(8),
+                Instruction::PUSH,
+                Instruction::LEAVE(8),
+            ],
+            data: vec![
+                0
+            ],
+            lit: vec![],
+            bss_length: Q3ASM_STACK_SIZE as u32 + 4,
+        };
+        assert_eq!(result, IResult::Done(&b""[..], expected));
+    }
+
 
     #[test]
     fn test_ins_file() {

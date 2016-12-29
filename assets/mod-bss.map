@@ -1,0 +1,4 @@
+0        0 vmMain
+3        0 uninitialized
+3        4 _stackStart
+3    10004 _stackEnd
