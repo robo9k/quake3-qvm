@@ -12,6 +12,7 @@ pub use opcodes::Opcode;
 
 const VM_MAGIC: [u8; 4] = [0x44, 0x14, 0x72, 0x12];
 
+// TODO: Validate instructions in new(), since Addresses might be out of bounds etc.
 #[derive(Debug,PartialEq)]
 struct QVM {
     code: Vec<Instruction>,

@@ -293,4 +293,11 @@ mod tests {
         assert_eq!(result, IResult::Done(&b""[..], expected));
     }
 
+    #[test]
+    fn test_qvm_file_ioq3_baseq3_qagame() {
+        let data = include_bytes!("../assets/ioq3/baseq3/vm/qagame.qvm");
+        let result = qvm(data);
+        // TODO: What to assert here?
+    }
+
 }
