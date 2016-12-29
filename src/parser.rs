@@ -263,7 +263,7 @@ mod tests {
 
     #[test]
     fn test_qvm_file() {
-        let data = include_bytes!("../assets/mod.qvm");
+        let data = include_bytes!("../assets/mod-minimal.qvm");
         let result = qvm(data);
         let expected = QVM {
             code: vec![
@@ -284,7 +284,7 @@ mod tests {
 
     #[test]
     fn test_ins_file() {
-        let data = include_bytes!("../assets/mod.qvm");
+        let data = include_bytes!("../assets/mod-minimal.qvm");
         named!(ins5<InputSlice,Vec<Instruction>>, count!(ins, 5));
         let result = ins5(&data[32..53]);
         let expected = vec![
