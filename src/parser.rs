@@ -1,4 +1,5 @@
 use super::{Opcode, Instruction, QVM, VM_MAGIC};
+use nom;
 use nom::*;
 
 type Input = u8;
@@ -140,36 +141,76 @@ named!(ins<InputSlice,Instruction>,
     )
 );
 
+macro_rules! length_size(
+    ($i:expr, $s:expr, $submac:ident!( $($args:tt)* )) => (
+    {
+        match take!($i, $s as usize) {
+            nom::IResult::Error(e)                         => nom::IResult::Error(e),
+            nom::IResult::Incomplete(nom::Needed::Unknown) => nom::IResult::Incomplete(nom::Needed::Unknown),
+            nom::IResult::Incomplete(nom::Needed::Size(n)) => {
+                nom::IResult::Incomplete(nom::Needed::Size(
+                    n + nom::InputLength::input_len(&($i)) - ($s)
+                ))
+            },
+            nom::IResult::Done(i2, o2)  => {
+                match complete!(o2, $submac!($($args)*)) {
+                    nom::IResult::Error(e)      => nom::IResult::Error(e),
+                    nom::IResult::Incomplete(i) => nom::IResult::Incomplete(i),
+                    nom::IResult::Done(_, o3)   => nom::IResult::Done(i2, o3)
+                }
+            }
+        }
+    }
+    );
+
+  ($i:expr, $submac:ident!( $($args:tt)* ), $g:expr) => (
+    length_value!($i, $submac!($($args)*), call!($g));
+  );
+
+  ($i:expr, $f:expr, $submac:ident!( $($args:tt)* )) => (
+    length_value!($i, call!($f), $submac!($($args)*));
+  );
+
+  ($i:expr, $f:expr, $g:expr) => (
+    length_value!($i, call!($f), call!($g));
+  );
+);
+
 const HEADER_LENGTH_V1: u32 = 32;
 
 named!(qvm<InputSlice, QVM>,
     do_parse!(
-        magic: le_u32                                       >>
-        instruction_count: le_u32                           >>
-        code_offset: le_u32                                 >>
-        code_length: le_u32                                 >>
-        data_offset: le_u32                                 >>
-        data_length: le_u32                                 >>
-        lit_length: le_u32                                  >>
-        bss_length: le_u32                                  >>
+        magic: le_u32                                   >>
+        instruction_count: le_u32                       >>
+        code_offset: le_u32                             >>
+        code_length: le_u32                             >>
+        data_offset: le_u32                             >>
+        data_length: le_u32                             >>
+        lit_length: le_u32                              >>
+        bss_length: le_u32                              >>
         // Read padding between header and code segment
-        take!(code_offset - HEADER_LENGTH_V1)               >>
-        code_segment: take!(code_length)                    >>
-        // Almost there, but we explicitly need to use `code_segment` as input
-//        code: count!(ins, instruction_count as usize)       >>
+        take!(code_offset - HEADER_LENGTH_V1)           >>
+        code: length_size!(
+            code_length as usize,
+            count!(ins, instruction_count as usize)
+        )                                               >>
         // Read padding between code and data segment
-        take!(data_offset - code_offset - code_length)      >>
-        data_segment: take!(data_length)                    >>
-//        data: count!(le_u32, data_length as usize / 4)      >>
+        take!(data_offset - code_offset - code_length)  >>
+        data: length_size!(
+            data_length as usize,
+            count!(le_u32, data_length as usize / 4)
+        )                                               >>
         // lit segment is always aligned, no padding here
-        lit_segment: take!(lit_length)                      >>
-//        lit: count!(le_u8, lit_length as usize)             >>
-        eof!()                                              >>
+        lit: length_size!(
+            lit_length as usize,
+            count!(le_u8, lit_length as usize)
+        )                                               >>
+        eof!()                                          >>
         (
             QVM {
-                code: vec![],
-                data: vec![],
-                lit: vec![],
+                code: code,
+                data: data,
+                lit: lit,
                 bss_length: bss_length,
             }
         )
