@@ -42,106 +42,106 @@ macro_rules! instruction_u8 {
 }
 
 
-instruction!(op_undef, Opcode::UNDEF, Instruction::UNDEF);
+instruction!(instruction_undef, Opcode::UNDEF, Instruction::UNDEF);
 
-instruction!(op_ignore, Opcode::IGNORE, Instruction::IGNORE);
+instruction!(instruction_ignore, Opcode::IGNORE, Instruction::IGNORE);
 
-instruction!(op_break, Opcode::BREAK, Instruction::BREAK);
+instruction!(instruction_break, Opcode::BREAK, Instruction::BREAK);
 
-instruction_u32!(op_enter, Opcode::ENTER, Instruction::ENTER);
-instruction_u32!(op_leave, Opcode::LEAVE, Instruction::LEAVE);
-instruction!(op_call, Opcode::CALL, Instruction::CALL);
-instruction!(op_push, Opcode::PUSH, Instruction::PUSH);
-instruction!(op_pop, Opcode::POP, Instruction::POP);
+instruction_u32!(instruction_enter, Opcode::ENTER, Instruction::ENTER);
+instruction_u32!(instruction_leave, Opcode::LEAVE, Instruction::LEAVE);
+instruction!(instruction_call, Opcode::CALL, Instruction::CALL);
+instruction!(instruction_push, Opcode::PUSH, Instruction::PUSH);
+instruction!(instruction_pop, Opcode::POP, Instruction::POP);
 
-instruction_u32!(op_const, Opcode::CONST, Instruction::CONST);
-instruction_u32!(op_local, Opcode::LOCAL, Instruction::LOCAL);
+instruction_u32!(instruction_const, Opcode::CONST, Instruction::CONST);
+instruction_u32!(instruction_local, Opcode::LOCAL, Instruction::LOCAL);
 
-instruction!(op_jump, Opcode::JUMP, Instruction::JUMP);
+instruction!(instruction_jump, Opcode::JUMP, Instruction::JUMP);
 
-instruction_u32!(op_eq, Opcode::EQ, Instruction::EQ);
-instruction_u32!(op_ne, Opcode::NE, Instruction::NE);
+instruction_u32!(instruction_eq, Opcode::EQ, Instruction::EQ);
+instruction_u32!(instruction_ne, Opcode::NE, Instruction::NE);
 
-instruction_u32!(op_lti, Opcode::LTI, Instruction::LTI);
-instruction_u32!(op_lei, Opcode::LEI, Instruction::LEI);
-instruction_u32!(op_gti, Opcode::GTI, Instruction::GTI);
-instruction_u32!(op_gei, Opcode::GEI, Instruction::GEI);
+instruction_u32!(instruction_lti, Opcode::LTI, Instruction::LTI);
+instruction_u32!(instruction_lei, Opcode::LEI, Instruction::LEI);
+instruction_u32!(instruction_gti, Opcode::GTI, Instruction::GTI);
+instruction_u32!(instruction_gei, Opcode::GEI, Instruction::GEI);
 
-instruction_u32!(op_ltu, Opcode::LTU, Instruction::LTU);
-instruction_u32!(op_leu, Opcode::LEU, Instruction::LEU);
-instruction_u32!(op_gtu, Opcode::GTU, Instruction::GTU);
-instruction_u32!(op_geu, Opcode::GEU, Instruction::GEU);
+instruction_u32!(instruction_ltu, Opcode::LTU, Instruction::LTU);
+instruction_u32!(instruction_leu, Opcode::LEU, Instruction::LEU);
+instruction_u32!(instruction_gtu, Opcode::GTU, Instruction::GTU);
+instruction_u32!(instruction_geu, Opcode::GEU, Instruction::GEU);
 
-instruction_u32!(op_eqf, Opcode::EQF, Instruction::EQF);
-instruction_u32!(op_nef, Opcode::NEF, Instruction::NEF);
+instruction_u32!(instruction_eqf, Opcode::EQF, Instruction::EQF);
+instruction_u32!(instruction_nef, Opcode::NEF, Instruction::NEF);
 
-instruction_u32!(op_ltf, Opcode::LTF, Instruction::LTF);
-instruction_u32!(op_lef, Opcode::LEF, Instruction::LEF);
-instruction_u32!(op_gtf, Opcode::GTF, Instruction::GTF);
-instruction_u32!(op_gef, Opcode::GEF, Instruction::GEF);
+instruction_u32!(instruction_ltf, Opcode::LTF, Instruction::LTF);
+instruction_u32!(instruction_lef, Opcode::LEF, Instruction::LEF);
+instruction_u32!(instruction_gtf, Opcode::GTF, Instruction::GTF);
+instruction_u32!(instruction_gef, Opcode::GEF, Instruction::GEF);
 
-instruction!(op_load1, Opcode::LOAD1, Instruction::LOAD1);
-instruction!(op_load2, Opcode::LOAD2, Instruction::LOAD2);
-instruction!(op_load4, Opcode::LOAD4, Instruction::LOAD4);
-instruction!(op_store1, Opcode::STORE1, Instruction::STORE1);
-instruction!(op_store2, Opcode::STORE2, Instruction::STORE2);
-instruction!(op_store4, Opcode::STORE4, Instruction::STORE4);
-instruction_u8!(op_arg, Opcode::ARG, Instruction::ARG);
+instruction!(instruction_load1, Opcode::LOAD1, Instruction::LOAD1);
+instruction!(instruction_load2, Opcode::LOAD2, Instruction::LOAD2);
+instruction!(instruction_load4, Opcode::LOAD4, Instruction::LOAD4);
+instruction!(instruction_store1, Opcode::STORE1, Instruction::STORE1);
+instruction!(instruction_store2, Opcode::STORE2, Instruction::STORE2);
+instruction!(instruction_store4, Opcode::STORE4, Instruction::STORE4);
+instruction_u8!(instruction_arg, Opcode::ARG, Instruction::ARG);
 
-instruction_u32!(op_block_copy, Opcode::BLOCK_COPY, Instruction::BLOCK_COPY);
+instruction_u32!(instruction_block_copy, Opcode::BLOCK_COPY, Instruction::BLOCK_COPY);
 
-instruction!(op_sex8, Opcode::SEX8, Instruction::SEX8);
-instruction!(op_sex16, Opcode::SEX16, Instruction::SEX16);
+instruction!(instruction_sex8, Opcode::SEX8, Instruction::SEX8);
+instruction!(instruction_sex16, Opcode::SEX16, Instruction::SEX16);
 
-instruction!(op_negi, Opcode::NEGI, Instruction::NEGI);
-instruction!(op_add, Opcode::ADD, Instruction::ADD);
-instruction!(op_sub, Opcode::SUB, Instruction::SUB);
-instruction!(op_divi, Opcode::DIVI, Instruction::DIVI);
-instruction!(op_divu, Opcode::DIVU, Instruction::DIVU);
-instruction!(op_modi, Opcode::MODI, Instruction::MODI);
-instruction!(op_modu, Opcode::MODU, Instruction::MODU);
-instruction!(op_muli, Opcode::MULI, Instruction::MULI);
-instruction!(op_mulu, Opcode::MULU, Instruction::MULU);
+instruction!(instruction_negi, Opcode::NEGI, Instruction::NEGI);
+instruction!(instruction_add, Opcode::ADD, Instruction::ADD);
+instruction!(instruction_sub, Opcode::SUB, Instruction::SUB);
+instruction!(instruction_divi, Opcode::DIVI, Instruction::DIVI);
+instruction!(instruction_divu, Opcode::DIVU, Instruction::DIVU);
+instruction!(instruction_modi, Opcode::MODI, Instruction::MODI);
+instruction!(instruction_modu, Opcode::MODU, Instruction::MODU);
+instruction!(instruction_muli, Opcode::MULI, Instruction::MULI);
+instruction!(instruction_mulu, Opcode::MULU, Instruction::MULU);
 
-instruction!(op_band, Opcode::BAND, Instruction::BAND);
-instruction!(op_bor, Opcode::BOR, Instruction::BOR);
-instruction!(op_bxor, Opcode::BXOR, Instruction::BXOR);
-instruction!(op_bcom, Opcode::BCOM, Instruction::BCOM);
+instruction!(instruction_band, Opcode::BAND, Instruction::BAND);
+instruction!(instruction_bor, Opcode::BOR, Instruction::BOR);
+instruction!(instruction_bxor, Opcode::BXOR, Instruction::BXOR);
+instruction!(instruction_bcom, Opcode::BCOM, Instruction::BCOM);
 
-instruction!(op_lsh, Opcode::LSH, Instruction::LSH);
-instruction!(op_rshi, Opcode::RSHI, Instruction::RSHI);
-instruction!(op_rshu, Opcode::RSHU, Instruction::RSHU);
+instruction!(instruction_lsh, Opcode::LSH, Instruction::LSH);
+instruction!(instruction_rshi, Opcode::RSHI, Instruction::RSHI);
+instruction!(instruction_rshu, Opcode::RSHU, Instruction::RSHU);
 
-instruction!(op_negf, Opcode::NEGF, Instruction::NEGF);
-instruction!(op_addf, Opcode::ADDF, Instruction::ADDF);
-instruction!(op_subf, Opcode::SUBF, Instruction::SUBF);
-instruction!(op_divf, Opcode::DIVF, Instruction::DIVF);
-instruction!(op_mulf, Opcode::MULF, Instruction::MULF);
+instruction!(instruction_negf, Opcode::NEGF, Instruction::NEGF);
+instruction!(instruction_addf, Opcode::ADDF, Instruction::ADDF);
+instruction!(instruction_subf, Opcode::SUBF, Instruction::SUBF);
+instruction!(instruction_divf, Opcode::DIVF, Instruction::DIVF);
+instruction!(instruction_mulf, Opcode::MULF, Instruction::MULF);
 
-instruction!(op_cvif, Opcode::CVIF, Instruction::CVIF);
-instruction!(op_cvfi, Opcode::CVFI, Instruction::CVFI);
+instruction!(instruction_cvif, Opcode::CVIF, Instruction::CVIF);
+instruction!(instruction_cvfi, Opcode::CVFI, Instruction::CVFI);
 
 
 named!(ins<InputSlice,Instruction>,
-    alt!(op_undef
-        | op_ignore
-        | op_break
-        | op_enter | op_leave | op_call | op_push | op_pop
-        | op_const | op_local
-        | op_jump
-        | op_eq | op_ne
-        | op_lti | op_lei | op_gti | op_gei
-        | op_ltu | op_leu | op_gtu | op_geu
-        | op_eqf | op_nef
-        | op_ltf | op_lef | op_gtf | op_gef
-        | op_load1 | op_load2 | op_load4 | op_store1 | op_store2 | op_store4 | op_arg
-        | op_block_copy
-        | op_sex8 | op_sex16
-        | op_negi | op_add | op_sub | op_divi | op_divu | op_modi | op_modu | op_muli | op_mulu
-        | op_band | op_bor | op_bxor | op_bcom
-        | op_lsh  | op_rshi | op_rshu
-        | op_negf | op_addf | op_subf | op_divf | op_mulf
-        | op_cvif | op_cvfi
+    alt!(instruction_undef
+        | instruction_ignore
+        | instruction_break
+        | instruction_enter | instruction_leave | instruction_call | instruction_push | instruction_pop
+        | instruction_const | instruction_local
+        | instruction_jump
+        | instruction_eq | instruction_ne
+        | instruction_lti | instruction_lei | instruction_gti | instruction_gei
+        | instruction_ltu | instruction_leu | instruction_gtu | instruction_geu
+        | instruction_eqf | instruction_nef
+        | instruction_ltf | instruction_lef | instruction_gtf | instruction_gef
+        | instruction_load1 | instruction_load2 | instruction_load4 | instruction_store1 | instruction_store2 | instruction_store4 | instruction_arg
+        | instruction_block_copy
+        | instruction_sex8 | instruction_sex16
+        | instruction_negi | instruction_add | instruction_sub | instruction_divi | instruction_divu | instruction_modi | instruction_modu | instruction_muli | instruction_mulu
+        | instruction_band | instruction_bor | instruction_bxor | instruction_bcom
+        | instruction_lsh  | instruction_rshi | instruction_rshu
+        | instruction_negf | instruction_addf | instruction_subf | instruction_divf | instruction_mulf
+        | instruction_cvif | instruction_cvfi
     )
 );
 
@@ -227,30 +227,30 @@ mod tests {
     use super::*;
 
     #[test]
-    fn test_op_break_exact_match() {
+    fn test_instruction_break_exact_match() {
         let data = [0x2];
-        let result = op_break(&data);
+        let result = instruction_break(&data);
         assert_eq!(result, IResult::Done(&b""[..], Instruction::BREAK));
     }
 
     #[test]
-    fn test_op_break_tag_mismatch() {
+    fn test_instruction_break_tag_mismatch() {
         let data = [0x0];
-        let result = op_break(&data);
+        let result = instruction_break(&data);
         assert_eq!(result, IResult::Error(ErrorKind::Tag));
     }
 
     #[test]
-    fn test_op_enter_exact_match() {
+    fn test_instruction_enter_exact_match() {
         let data = [0x3, 0x42, 0x0, 0x0, 0x0];
-        let result = op_enter(&data);
+        let result = instruction_enter(&data);
         assert_eq!(result, IResult::Done(&b""[..], Instruction::ENTER(0x42)));
     }
 
     #[test]
-    fn test_op_arg_exact_match() {
+    fn test_instruction_arg_exact_match() {
         let data = [0x21, 0x42];
-        let result = op_arg(&data);
+        let result = instruction_arg(&data);
         assert_eq!(result, IResult::Done(&b""[..], Instruction::ARG(0x42)));
     }
 
