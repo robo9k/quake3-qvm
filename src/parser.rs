@@ -331,6 +331,33 @@ mod tests {
     }
 
     #[test]
+    fn test_qvm_file_lit() {
+        let data = include_bytes!("../assets/mod-lit.qvm");
+        let result = qvm(data);
+        let expected = QVM {
+            code: vec![
+                Instruction::ENTER(8),
+                Instruction::CONST(4294967295), // TODO: This is actually -1, need to rethink types!
+                Instruction::LEAVE(8),
+                Instruction::PUSH,
+                Instruction::LEAVE(8),
+            ],
+            data: vec![
+                0,
+            ],
+            lit: vec![
+                '!' as u8,
+                0, // padding for aligment?
+                0,
+                0,
+            ],
+            bss_length: Q3ASM_STACK_SIZE as u32,
+        };
+        assert_eq!(result, IResult::Done(&b""[..], expected));
+    }
+
+
+    #[test]
     fn test_ins_file() {
         let data = include_bytes!("../assets/mod-minimal.qvm");
         named!(ins5<InputSlice,Vec<Instruction>>, count!(ins, 5));
