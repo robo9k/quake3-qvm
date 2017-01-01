@@ -1,8 +1,13 @@
-#![recursion_limit="128"]
+// Both `nom` and `error_chain` can recurse deeply
+#![recursion_limit="1024"]
+
+#[macro_use]
+extern crate error_chain;
 
 #[macro_use]
 extern crate nom;
 
+pub mod errors;
 pub mod bytecode;
 pub mod opcodes;
 pub mod parser;

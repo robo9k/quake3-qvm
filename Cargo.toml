@@ -5,3 +5,4 @@ authors = ["robo9k <robo@9k.lv>"]
 
 [dependencies]
 nom = "^2.0"
+error-chain = "0.7.2"
