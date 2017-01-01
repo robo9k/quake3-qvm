@@ -1,5 +1,5 @@
 [package]
-name = "q3vm"
+name = "quake3-qvm"
 version = "0.1.0"
 authors = ["robo9k <robo@9k.lv>"]
 

@@ -1,7 +1,9 @@
+#![warn(missing_docs)]
+
+//! A library to handle Quake 3 virtual machines.
+
 // Both `nom` and `error_chain` can recurse deeply
 #![recursion_limit="1024"]
-
-#![warn(missing_docs)]
 
 #[macro_use]
 extern crate error_chain;
