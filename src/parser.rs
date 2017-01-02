@@ -187,7 +187,8 @@ const HEADER_LENGTH_V1: u32 = 32;
 
 named!(qvm<InputSlice, QVM>,
     do_parse!(
-        magic: le_u32                                   >>
+        tag!(VM_MAGIC)                                  >>
+//        magic: le_u32                                   >>
         instruction_count: le_u32                       >>
         code_offset: le_u32                             >>
         code_length: le_u32                             >>
