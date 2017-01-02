@@ -1,6 +1,7 @@
 use super::{Opcode, Instruction, QVM, VM_MAGIC};
+use super::errors::*;
 use nom;
-use nom::*;
+use nom::{IResult, le_u32, le_u8};
 
 type Input = u8;
 type InputSlice<'a> = &'a [Input];
@@ -184,7 +185,7 @@ macro_rules! length_size(
 
 const HEADER_LENGTH_V1: u32 = 32;
 
-named!(pub qvm<InputSlice, QVM>,
+named!(qvm<InputSlice, QVM>,
     do_parse!(
         magic: le_u32                                   >>
         instruction_count: le_u32                       >>
@@ -224,6 +225,15 @@ named!(pub qvm<InputSlice, QVM>,
 );
 
 
+/// Tries to parse a QVM from a byte slice.
+pub fn parse_qvm(data: InputSlice) -> Result<QVM> {
+    match qvm(data).to_full_result() {
+        Ok(v) => Ok(v),
+        Err(e) => Err(ErrorKind::Parser(e).into()),
+    }
+}
+
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -242,7 +252,7 @@ mod tests {
     fn test_instruction_break_tag_mismatch() {
         let data = [0x0];
         let result = instruction_break(&data);
-        assert_eq!(result, IResult::Error(ErrorKind::Tag));
+        assert_eq!(result, IResult::Error(nom::ErrorKind::Tag));
     }
 
     #[test]
