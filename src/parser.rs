@@ -382,10 +382,11 @@ mod tests {
         assert_eq!(result, IResult::Done(&b""[..], expected));
     }
 
+    // TODO: This is more of an integration test
     #[test]
-    fn test_qvm_file_ioq3_baseq3_qagame() {
+    fn test_parse_qvm_ioq3_qagame() {
         let data = include_bytes!("../assets/ioq3/baseq3/vm/qagame.qvm");
-        let result = qvm(data);
+        let result = parse_qvm(data).unwrap();
         // TODO: What to assert here?
     }
 
