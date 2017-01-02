@@ -1,7 +1,9 @@
 [package]
 name = "quake3-qvm"
-version = "0.1.0"
+description = "Library to handle Quake 3 virtual machines"
+license = "MIT/Apache-2.0"
 authors = ["robo9k <robo@9k.lv>"]
+version = "0.1.0"
 
 [dependencies]
 nom = "^2.0"
