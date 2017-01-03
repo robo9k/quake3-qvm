@@ -29,7 +29,7 @@ const VM_MAGIC: [u8; 4] = [0x44, 0x14, 0x72, 0x12];
 ///
 /// * word-sized data
 /// * byte-sized data (LIT)
-/// * length of uninitialized data (BSS)
+/// * uninitialized data (BSS)
 #[derive(Debug,PartialEq)]
 pub struct QVM {
     code: Vec<Instruction>,
@@ -56,4 +56,17 @@ impl QVM {
             bss_length: bss_length,
         })
     }
+}
+
+/// The different segments/sections in a QVM file.
+///
+/// See ioquake3's `segmentName_t` in `tools/asm/q3asm.c`
+// These should match the names in ioquake3
+#[allow(non_camel_case_types)]
+pub enum Segment {
+    CODE,
+    DATA,
+    LIT,
+    BSS,
+    JTRG,
 }
