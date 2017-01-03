@@ -64,9 +64,14 @@ impl QVM {
 // These should match the names in ioquake3
 #[allow(non_camel_case_types)]
 pub enum Segment {
+    /// The code segment, consisting of instructions.
     CODE,
+    /// The data segment, consisting of word-sized data.
     DATA,
+    /// The LIT segment, consisting of byte-sized data.
     LIT,
+    /// The BSS pseudo-segment, consisting of uninitialized data.
     BSS,
+    /// The jump table targets pseudo-segment, consisting of jump label addresses.
     JTRG,
 }
