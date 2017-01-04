@@ -17,7 +17,6 @@ pub mod opcodes;
 pub mod parser;
 
 pub use bytecode::Instruction;
-pub use opcodes::Opcode;
 
 use errors::*;
 

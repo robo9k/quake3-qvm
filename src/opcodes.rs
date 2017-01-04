@@ -1,3 +1,6 @@
+//! Operation codes for QVM instructions.
+// TODO: Does this have to be in its own mod?
+
 // These should match the names in ioquake3
 #[allow(non_camel_case_types)]
 /// Operation code for a QVM instruction.

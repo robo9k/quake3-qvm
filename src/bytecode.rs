@@ -1,3 +1,5 @@
+//! Types for the compiled format of a QVM.
+
 /// Size of procedure stack adjustment
 pub type FrameSize = u32;
 

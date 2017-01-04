@@ -1,4 +1,7 @@
-use super::{Opcode, Instruction, QVM, VM_MAGIC};
+//! Parsers for the different QVM and related formats.
+
+use super::{Instruction, QVM, VM_MAGIC};
+use opcodes::Opcode;
 use super::errors::*;
 use nom;
 use nom::{le_u32, le_u8};
