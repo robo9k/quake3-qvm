@@ -6,7 +6,7 @@ A [Rust](https://www.rust-lang.org/) crate to handle Quake 3 virtual machines.
 [![travis ci](https://travis-ci.org/robo9k/quake3-qvm.svg?branch=master)](https://travis-ci.org/robo9k/quake3-qvm)
 [![crates.io version](https://img.shields.io/crates/v/quake3-qvm.svg)](https://crates.io/crates/quake3-qvm)
 [![docs.rs](https://docs.rs/quake3-qvm/badge.svg)](https://docs.rs/quake3-qvm)
-[![crates.io license](https://img.shields.io/crates/l/quake3-qvm.svg)](https://crates.io/crates/quake3-qvm)
+[![crates.io license](https://img.shields.io/crates/l/quake3-qvm.svg)](https://github.com/robo9k/quake3-qvm/blob/master/README.md#license)
 
 # Usage
 
