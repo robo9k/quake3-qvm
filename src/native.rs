@@ -40,7 +40,87 @@ pub trait QVM: 'static + Sync + Send {
 
 /// Creates the required plumbing to use an `impl QVM` as a native shared library.
 ///
-/// NOTE: Requires `lazy_static!` dependency in the crate using this macro, since const-fns are still unstable.
+/// # Examples
+///
+/// Add the following section to your `Cargo.toml`:
+///
+/// ```toml
+/// [lib]
+/// name = "q3hi"
+/// crate-type = ["cdylib"]
+/// ```
+///
+/// Then implement a QVM by using the macro as such:
+///
+/// ```rust
+/// #[macro_use]
+/// extern crate quake3_qvm;
+/// // Needed for C FFI
+/// extern crate libc;
+/// // Needed to initialize internal `static mut` until const-fns are stable
+/// #[macro_use]
+/// extern crate lazy_static;
+///
+/// use std::ffi::CString;
+///
+/// struct HelloQuake3 {
+///    syscall: Syscall,
+/// }
+///
+/// use quake3_qvm::native::*;
+///
+/// // See ioquake3's [game/g_public.h](https://github.com/ioquake/ioq3/blob/master/code/game/g_public.h)
+/// const G_ERROR: libc::intptr_t = 1;
+/// const GAME_INIT: libc::c_int = 0;
+/// const GAME_SHUTDOWN: libc::c_int = 1;
+///
+/// impl QVM for HelloQuake3 {
+///    fn dll_entry(syscall: Syscall) -> Box<HelloQuake3> {
+///        Box::new(HelloQuake3 { syscall: syscall })
+///    }
+///
+///    fn vm_main(&self,
+///               command: libc::c_int,
+///               arg0: libc::c_int,
+///               arg1: libc::c_int,
+///               arg2: libc::c_int,
+///               arg3: libc::c_int,
+///               arg4: libc::c_int,
+///               arg5: libc::c_int,
+///               arg6: libc::c_int,
+///               arg7: libc::c_int,
+///               arg8: libc::c_int,
+///               arg9: libc::c_int,
+///               arg10: libc::c_int,
+///               arg11: libc::c_int)
+///               -> libc::intptr_t {
+///        match command {
+///            GAME_INIT => {
+///                (self.syscall)(G_ERROR, CString::new("Hello, World!").unwrap().as_ptr());
+///                unreachable!()
+///            }
+///            GAME_SHUTDOWN => {
+///                // Just return a dummy value here for clean shutdown
+///                0
+///            },
+///            _ => panic!("Game command not implemented"),
+///        }
+///    }
+/// }
+///
+/// # fn main() {
+/// native_qvm!(HelloQuake3);
+/// # }
+/// ```
+///
+/// Finally build the QVM, put it in the right place for Quake 3 and load it:
+///
+/// ```sh
+/// cargo build
+/// mkdir -p ~/.q3a/rust/
+/// cp target/debug/libq3hi.so ~/.q3a/rust/qagamex86_64.so
+/// ioq3ded +set fs_game rust +set vm_game 0 +map q3dm6
+/// ```
 #[macro_export]
 macro_rules! native_qvm {
     ($ty:ident) => {
