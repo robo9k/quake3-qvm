@@ -12,3 +12,4 @@ version = "0.3.0"
 [dependencies]
 nom = "^2.0"
 error-chain = "0.7.2"
+libc = "0.2.18"

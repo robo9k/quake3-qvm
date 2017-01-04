@@ -7,14 +7,15 @@
 
 #[macro_use]
 extern crate error_chain;
-
 #[macro_use]
 extern crate nom;
+extern crate libc;
 
 pub mod errors;
 pub mod bytecode;
 pub mod opcodes;
 pub mod parser;
+pub mod native;
 
 pub use bytecode::Instruction;
 
