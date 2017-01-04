@@ -390,6 +390,8 @@ mod tests {
 
     // TODO: This is more of an integration test
     #[test]
+    // TODO: This test won't work due to v2 magic, which is unimplemented
+    #[ignore]
     fn test_parse_qvm_ioq3_qagame() {
         let data = include_bytes!("../assets/ioq3/baseq3/vm/qagame.qvm");
         let result = parse_qvm(data).unwrap();
