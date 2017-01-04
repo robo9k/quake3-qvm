@@ -1,7 +1,7 @@
 use super::{Opcode, Instruction, QVM, VM_MAGIC};
 use super::errors::*;
 use nom;
-use nom::{IResult, le_u32, le_u8};
+use nom::{le_u32, le_u8};
 
 type Input = u8;
 type InputSlice<'a> = &'a [Input];
@@ -237,7 +237,12 @@ pub fn parse_qvm(data: InputSlice) -> Result<QVM> {
 
 #[cfg(test)]
 mod tests {
-    use super::*;
+    use super::{instruction_break, instruction_enter, instruction_arg, ins, qvm, parse_qvm,
+                InputSlice};
+    use bytecode::Instruction;
+    use nom::IResult;
+    use nom;
+    use ::QVM;
 
     /// q3asm reserves the stack in the BSS segment
     const Q3ASM_STACK_SIZE: usize = 0x10000;
