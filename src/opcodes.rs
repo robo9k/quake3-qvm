@@ -1,11 +1,13 @@
 //! Operation codes for QVM instructions.
-// TODO: Does this have to be in its own mod?
+//! TODO: Does this have to be in its own mod?
 
 // These should match the names in ioquake3
 #[allow(non_camel_case_types)]
+#[allow(missing_docs)]
 /// Operation code for a QVM instruction.
 ///
-/// See ioquake3's `opcode_t` in `qcommon/vm_local.h`
+/// See ioquake3's `opcode_t` in [qcommon/vm_local.h](https://github.com/ioquake/ioq3/blob/master/code/qcommon/vm_local.h).
+/// See `bytecode::Instruction` for the related, higher-level types.
 pub enum Opcode {
     UNDEF,
 
