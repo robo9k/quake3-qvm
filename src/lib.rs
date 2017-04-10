@@ -50,11 +50,31 @@ impl QVM {
                bss_length: u32)
                -> Result<QVM> {
         Ok(QVM {
-            code: code,
-            data: data,
-            lit: lit,
-            bss_length: bss_length,
-        })
+               code: code,
+               data: data,
+               lit: lit,
+               bss_length: bss_length,
+           })
+    }
+
+    /// Returns the instructions of the code segment.
+    pub fn instructions(&self) -> &Vec<Instruction> {
+        &self.code
+    }
+
+    /// Returns the word-sized data of the data segment.
+    pub fn data(&self) -> &Vec<u32> {
+        &self.data
+    }
+
+    /// Returns the byte-sized data of the LIT segment.
+    pub fn lit(&self) -> &Vec<u8> {
+        &self.lit
+    }
+
+    /// Returns the length of the uninitialized BSS segment.
+    pub fn bss_length(&self) -> u32 {
+        self.bss_length
     }
 }
 
