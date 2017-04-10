@@ -245,7 +245,7 @@ mod tests {
     use bytecode::Instruction;
     use nom::IResult;
     use nom;
-    use ::QVM;
+    use QVM;
 
     /// q3asm reserves the stack in the BSS segment
     const Q3ASM_STACK_SIZE: usize = 0x10000;
@@ -290,16 +290,12 @@ mod tests {
         let data = include_bytes!("../assets/mod-minimal.qvm");
         let result = qvm(data);
         let expected = QVM {
-            code: vec![
-                Instruction::ENTER(8),
-                Instruction::CONST(4294967295), // TODO: This is actually -1, need to rethink types!
-                Instruction::LEAVE(8),
-                Instruction::PUSH,
-                Instruction::LEAVE(8),
-            ],
-            data: vec![
-                0
-            ],
+            code: vec![Instruction::ENTER(8),
+                       Instruction::CONST(4294967295), // TODO: This is actually -1, need to rethink types!
+                       Instruction::LEAVE(8),
+                       Instruction::PUSH,
+                       Instruction::LEAVE(8)],
+            data: vec![0],
             lit: vec![],
             bss_length: Q3ASM_STACK_SIZE as u32,
         };
@@ -311,16 +307,12 @@ mod tests {
         let data = include_bytes!("../assets/mod-bss.qvm");
         let result = qvm(data);
         let expected = QVM {
-            code: vec![
-                Instruction::ENTER(8),
-                Instruction::CONST(4294967295), // TODO: This is actually -1, need to rethink types!
-                Instruction::LEAVE(8),
-                Instruction::PUSH,
-                Instruction::LEAVE(8),
-            ],
-            data: vec![
-                0
-            ],
+            code: vec![Instruction::ENTER(8),
+                       Instruction::CONST(4294967295), // TODO: This is actually -1, need to rethink types!
+                       Instruction::LEAVE(8),
+                       Instruction::PUSH,
+                       Instruction::LEAVE(8)],
+            data: vec![0],
             lit: vec![],
             bss_length: Q3ASM_STACK_SIZE as u32 + 4,
         };
@@ -332,13 +324,11 @@ mod tests {
         let data = include_bytes!("../assets/mod-data.qvm");
         let result = qvm(data);
         let expected = QVM {
-            code: vec![
-                Instruction::ENTER(8),
-                Instruction::CONST(4294967295), // TODO: This is actually -1, need to rethink types!
-                Instruction::LEAVE(8),
-                Instruction::PUSH,
-                Instruction::LEAVE(8),
-            ],
+            code: vec![Instruction::ENTER(8),
+                       Instruction::CONST(4294967295), // TODO: This is actually -1, need to rethink types!
+                       Instruction::LEAVE(8),
+                       Instruction::PUSH,
+                       Instruction::LEAVE(8)],
             data: vec![
                 0, // for alignment?
                 0xDEADBEEF,
@@ -354,16 +344,12 @@ mod tests {
         let data = include_bytes!("../assets/mod-lit.qvm");
         let result = qvm(data);
         let expected = QVM {
-            code: vec![
-                Instruction::ENTER(8),
-                Instruction::CONST(4294967295), // TODO: This is actually -1, need to rethink types!
-                Instruction::LEAVE(8),
-                Instruction::PUSH,
-                Instruction::LEAVE(8),
-            ],
-            data: vec![
-                0,
-            ],
+            code: vec![Instruction::ENTER(8),
+                       Instruction::CONST(4294967295), // TODO: This is actually -1, need to rethink types!
+                       Instruction::LEAVE(8),
+                       Instruction::PUSH,
+                       Instruction::LEAVE(8)],
+            data: vec![0],
             lit: vec![
                 '!' as u8,
                 0, // padding for aligment?
@@ -381,13 +367,11 @@ mod tests {
         let data = include_bytes!("../assets/mod-minimal.qvm");
         named!(ins5<InputSlice,Vec<Instruction>>, count!(ins, 5));
         let result = ins5(&data[32..53]);
-        let expected = vec![
-            Instruction::ENTER(8),
-            Instruction::CONST(4294967295), // TODO: This is actually -1, need to rethink types!
-            Instruction::LEAVE(8),
-            Instruction::PUSH,
-            Instruction::LEAVE(8),
-        ];
+        let expected = vec![Instruction::ENTER(8),
+                            Instruction::CONST(4294967295), // TODO: This is actually -1, need to rethink types!
+                            Instruction::LEAVE(8),
+                            Instruction::PUSH,
+                            Instruction::LEAVE(8)];
         assert_eq!(result, IResult::Done(&b""[..], expected));
     }
 
