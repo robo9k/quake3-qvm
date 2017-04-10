@@ -69,7 +69,7 @@ pub trait QVM: 'static + Sync + Send {
 ///
 /// use quake3_qvm::native::*;
 ///
-/// // See ioquake3's [game/g_public.h](https://github.com/ioquake/ioq3/blob/master/code/game/g_public.h)
+/// /// See ioquake3's [game/g_public.h](https://github.com/ioquake/ioq3/blob/master/code/game/g_public.h)
 /// const G_ERROR: libc::intptr_t = 1;
 /// const GAME_INIT: libc::c_int = 0;
 /// const GAME_SHUTDOWN: libc::c_int = 1;
@@ -125,15 +125,15 @@ pub trait QVM: 'static + Sync + Send {
 macro_rules! native_qvm {
     ($ty:ident) => {
         lazy_static! {
-            static ref _QVM_IMPL: std::sync::Mutex<std::cell::RefCell<Option<Box<QVM>>>> = std::sync::Mutex::new(std::cell::RefCell::new(None));
+            static ref _QVM_IMPL: std::sync::Arc<std::sync::RwLock<Option<Box<QVM>>>> = std::sync::Arc::new(std::sync::RwLock::new(None));
         }
 
         #[doc(hidden)]
         #[no_mangle]
         #[allow(non_snake_case)]
         pub extern "C" fn dllEntry(syscall: Syscall) {
-            let QVM_IMPL = _QVM_IMPL.lock().unwrap();
-            *QVM_IMPL.borrow_mut() = Some($ty::dll_entry(syscall));
+            let mut QVM_IMPL = _QVM_IMPL.write().unwrap();
+            *QVM_IMPL = Some($ty::dll_entry(syscall));
         }
 
         #[doc(hidden)]
@@ -153,11 +153,20 @@ macro_rules! native_qvm {
                                  arg10: libc::c_int,
                                  arg11: libc::c_int)
                                  -> libc::intptr_t {
-            let data = _QVM_IMPL.lock().unwrap();
-            let mut data = data.borrow_mut();
-            let qvm_impl = data.as_mut().unwrap();
-
-            (*qvm_impl).vm_main(command, arg0, arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9, arg10, arg11)
+            let data = _QVM_IMPL.read().unwrap();
+            data.as_ref().unwrap().vm_main(command,
+                               arg0,
+                               arg1,
+                               arg2,
+                               arg3,
+                               arg4,
+                               arg5,
+                               arg6,
+                               arg7,
+                               arg8,
+                               arg9,
+                               arg10,
+                               arg11)
         }
     }
 }
