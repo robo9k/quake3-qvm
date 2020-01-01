@@ -10,7 +10,7 @@ repository = "https://github.com/robo9k/quake3-qvm.git"
 license = "MIT OR Apache-2.0"
 license-file = "COPYRIGHT"
 authors = ["robo9k <robo9k@symlink.io>"]
-version = "0.4.3"
+version = "0.4.4"
 exclude = ["/.travis.yml", ".gitignore"]
 
 [badges]
