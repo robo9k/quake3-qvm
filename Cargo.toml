@@ -6,7 +6,7 @@ Library to handle Quake 3 virtual machines
 keywords = ["quake3", "qvm", "vm", "parser"]
 categories = ["parser-implementations"]
 readme = "README-crate.md"
-repository = "https://github.com/robo9k/quake3-qvm.git"
+repository = "https://github.com/robo9k/quake3-qvm"
 license = "MIT OR Apache-2.0"
 authors = ["robo9k <robo9k@symlink.io>"]
 version = "0.4.4"
