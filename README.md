@@ -1,3 +1,5 @@
+[//]: # (README)
+
 quake3-qvm
 ==========
 
@@ -10,7 +12,7 @@ A [Rust](https://www.rust-lang.org/) crate to handle Quake 3 virtual machines.
 
 # Usage
 
-Add a dependency to your `Cargo.toml` (see [Cargo Guide](http://doc.crates.io/guide.html#adding-dependencies-from-cratesio)):
+Add a dependency to your `Cargo.toml` (see [The Cargo Book](https://doc.rust-lang.org/cargo/guide/dependencies.html#adding-a-dependency)):
 
 ```toml
 [dependencies]
@@ -21,7 +23,7 @@ For further info, read [the crate's rustdoc](https://docs.rs/quake3-qvm).
 
 # Requirements
 
-Needs `rustc stable`. [Create an issue](https://github.com/robo9k/quake3-qvm/issues/new) if it does not work on current stable.
+Needs `rustc stable`. [Create a pull request](https://github.com/robo9k/quake3-qvm/compare) if it does not work on current stable.
 
 # License
 
