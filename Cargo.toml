@@ -9,7 +9,7 @@ readme = "README-crate.md"
 repository = "https://github.com/robo9k/quake3-qvm"
 license = "MIT OR Apache-2.0"
 authors = ["robo9k <robo9k@symlink.io>"]
-version = "0.5.0"
+version = "0.6.0"
 exclude = ["/.travis.yml", ".gitignore"]
 
 [badges]
