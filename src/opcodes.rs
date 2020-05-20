@@ -8,6 +8,7 @@
 ///
 /// See ioquake3's `opcode_t` in [qcommon/vm_local.h](https://github.com/ioquake/ioq3/blob/master/code/qcommon/vm_local.h).
 /// See `bytecode::Instruction` for the related, higher-level types.
+#[derive(Debug, Clone, Copy)]
 pub enum Opcode {
     UNDEF,
 

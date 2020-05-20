@@ -21,7 +21,7 @@ pub type Literal = u32;
 // These should match their opcodes
 #[allow(non_camel_case_types)]
 /// A QVM instruction.
-#[derive(Debug,PartialEq)]
+#[derive(Debug,PartialEq, Copy, Clone)]
 pub enum Instruction {
     /// Undefined instruction.
     ///
