@@ -81,6 +81,7 @@ impl QVM {
 /// See ioquake3's `segmentName_t` in `tools/asm/q3asm.c`
 // These should match the names in ioquake3
 #[allow(non_camel_case_types)]
+#[derive(Debug, Clone, Copy)]
 pub enum Segment {
     /// The code segment, consisting of instructions.
     CODE,
