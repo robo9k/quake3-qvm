@@ -344,13 +344,54 @@ mod tests {
         let data = include_bytes!("../assets/mod-lit.qvm");
         let result = qvm(data);
         let expected = QVM {
-            code: vec![Instruction::ENTER(8),
-                       Instruction::CONST(4294967295), // TODO: This is actually -1, need to rethink types!
-                       Instruction::LEAVE(8),
-                       Instruction::PUSH,
-                       Instruction::LEAVE(8)],
+            code: vec![
+                Instruction::ENTER(8),
+                Instruction::CONST(4294967295), // TODO: This is actually -1, need to rethink types!
+                Instruction::LEAVE(8),
+                Instruction::PUSH,
+                Instruction::LEAVE(8),
+            ],
             data: vec![0],
             lit: vec![
+                '!' as u8, 0, // padding for aligment?
+                0, 0,
+            ],
+            bss_length: Q3ASM_STACK_SIZE as u32,
+        };
+        assert_eq!(result, IResult::Done(&b""[..], expected));
+    }
+
+    #[test]
+    fn test_qvm_file_syscall() {
+        let data = include_bytes!("../assets/mod-syscall.qvm");
+        let result = qvm(data);
+        let expected = QVM {
+            code: vec![
+                Instruction::ENTER(12),
+                Instruction::CONST(4),
+                Instruction::ARG(8),
+                Instruction::CONST(4294966630), // TODO: This is actually -666, need to rethink types!
+                Instruction::CALL,
+                Instruction::POP,
+                Instruction::CONST(4294967295), // TODO: This is actually -1, need to rethink types!
+                Instruction::LEAVE(12),
+                Instruction::PUSH,
+                Instruction::LEAVE(12),
+            ],
+            data: vec![0],
+            lit: vec![
+                'H' as u8,
+                'e' as u8,
+                'l' as u8,
+                'l' as u8,
+                'o' as u8,
+                ',' as u8,
+                ' ' as u8,
+                'w' as u8,
+                'o' as u8,
+                'r' as u8,
+                'l' as u8,
+                'd' as u8,
                 '!' as u8,
                 0, // padding for aligment?
                 0,

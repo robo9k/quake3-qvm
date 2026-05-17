@@ -1,0 +1,4 @@
+0 fffffd66 trap_Print
+0        0 vmMain
+0        0 _stackStart
+0    10000 _stackEnd
